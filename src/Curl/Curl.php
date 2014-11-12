@@ -134,7 +134,12 @@ class Curl
         $this->url = $url;
         $this->setOpt(CURLOPT_URL, $this->url);
         $this->setOpt(CURLOPT_CUSTOMREQUEST, 'PUT');
-        $put_data = http_build_query($data);
+        
+        $put_data = $data;
+        if (is_array($put_data)) {
+            $put_data = http_build_query($put_data);
+        }
+        
         if (empty($this->options[CURLOPT_INFILE]) && empty($this->options[CURLOPT_INFILESIZE])) {
             $this->setHeader('Content-Length', strlen($put_data));
         }
